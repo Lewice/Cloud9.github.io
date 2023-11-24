@@ -11,7 +11,7 @@
     }
 
     label {
-      display: inline-block; /* Display as inline-block to make items appear beside each other */
+      display: block; /* Display as inline-block to make items appear beside each other */
       margin-bottom: 5px;
     }
 
@@ -223,17 +223,9 @@
 	
 	<label for="customerStateID">Customer State ID:</label>
 	<input type="text" id="customerStateID">
-
-	
-
 	<label for="customerName">Customer Name:</label>
 	<input type="text" id="customerName">
     
-	
-	
-	
-	
-	
 	<div style="margin-bottom: 30px;"></div>
 	
 	<label for="discount">Select Discount:</label>
@@ -243,15 +235,11 @@
 	
 	<div style="margin-bottom: 30px;"></div>
 	
-
-
     <label for="employeeName">Employee Name:</label>
     <input type="text" id="employeeName" required>
 	
 	<div style="margin-bottom: 30px;"></div>
 	
-	
-
     <p>Total: $<span id="total"></span></p>
     <p>Commission (50%): $<span id="commission"></span></p>
 	
