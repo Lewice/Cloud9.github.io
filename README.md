@@ -52,15 +52,18 @@
   });
 
   // Change commission rate from 5% to 10%
-  const commission = total * 0.10;
+  const commission = total * 0.50;
 
   document.getElementById('total').innerText = total.toFixed(2);
   document.getElementById('commission').innerText = commission.toFixed(2);
 }
 
-    function SubForm() {
-  // Check if the employee name is provided
+   function SubForm() {
+  // Check if the employee name, customer state ID, and customer name are provided
   const employeeName = $("#employeeName").val();
+  const customerStateID = $("#customerStateID").val();
+  const customerName = $("#customerName").val();
+
   if (employeeName.trim() === "") {
     alert("Employee Name is required!");
     return;
@@ -91,11 +94,14 @@
   // Prepare data for API submission
   const formData = {
     "Employee Name": employeeName,
+    "Customer State ID": customerStateID,
+    "Customer Name": customerName,
     "Total": total.toFixed(2),
     "Commission": commission.toFixed(2),
-    "Items Ordered": JSON.stringify(orderedItems),
-    "Discount Applied": discount
+    "Discount Applied": discount,
+    "Items Ordered": orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n')
   };
+
 
   // Form Submission Logic for Spreadsheet
   $.ajax({
@@ -118,12 +124,14 @@
 
   // Prepare data for Discord webhook
   const discordData = {
-    username: "Benny's Recipts",
+    username: "Cloud9's Recipts",
     content: `New order submitted by ${employeeName}`,
     embeds: [{
       title: "Order Details",
       fields: [
         { name: "Employee Name", value: employeeName, inline: true },
+        { name: "Customer State ID", value: customerStateID, inline: true },
+        { name: "Customer Name", value: customerName, inline: true },
         { name: "Total", value: `$${total.toFixed(2)}`, inline: true },
         { name: "Commission", value: `$${commission.toFixed(2)}`, inline: true },
         { name: "Discount Applied", value: `${discount}%`, inline: true },
@@ -135,7 +143,7 @@
 
   // Form Submission Logic for Discord webhook
   $.ajax({
-    url: "https://discord.com/api/webhooks/1177304010034778122/LWkVYw9WCXkOXGvGCdb1-0p3TShKxxxovQExUWuY36Lihp1abXbr92msFGEHWcCbYaom", // Replace with your Discord webhook URL
+    url: "https://discord.com/api/webhooks/1177304010034778122/LWkVYw9WCXkOXGvGCdb1-0p3TShKxxxovQExUWuY36Lihp1abXbr92msFGEHWcCbYaom",
     type: "post",
     contentType: "application/json",
     data: JSON.stringify(discordData),
@@ -157,18 +165,6 @@
   // Reset discount dropdown to default
   $("#discount").val("0");
 }
-
-    function resetForm() {
-      // Reset checkboxes and quantity inputs
-      $('.menu-item').prop('checked', false);
-      $('.quantity').val(1);
-
-      // Reset totals
-      document.getElementById('total').innerText = '';
-      document.getElementById('commission').innerText = '';
-      // Reset discount dropdown to default
-      $("#discount").val("0");
-    }
   </script>
 </head>
 <body>
@@ -203,9 +199,36 @@
 	
 	<h3>Certifications</h3>
     <label>
-      <input type="checkbox" class="menu-item" data-price="10000"> Certification - $10,000
+      <input type="checkbox" class="menu-item" data-price="10000"> Certification 1 - $10,000
       <input type="number" class="quantity" value="1" min="1">
     </label>
+	<label>
+      <input type="checkbox" class="menu-item" data-price="10000"> Certification 2 - $10,000
+      <input type="number" class="quantity" value="1" min="1">
+    </label>
+	<label>
+      <input type="checkbox" class="menu-item" data-price="10000"> Certification 3 - $10,000
+      <input type="number" class="quantity" value="1" min="1">
+    </label>
+	
+	<h3>License</h3>
+    <label>
+      <input type="checkbox" class="menu-item" data-price="25000"> License - $25,000
+      <input type="number" class="quantity" value="1" min="1">
+    </label>
+	<div style="margin-bottom: 30px;"></div>
+	
+	<h3>Customer Information</h3>
+	
+	<div style="margin-bottom: 15px;"></div>
+	
+	<label for="customerStateID">Customer State ID:</label>
+	<input type="text" id="customerStateID">
+
+	
+
+	<label for="customerName">Customer Name:</label>
+	<input type="text" id="customerName" required>
     
 	
 	
@@ -231,7 +254,7 @@
 	
 
     <p>Total: $<span id="total"></span></p>
-    <p>Commission (10%): $<span id="commission"></span></p>
+    <p>Commission (50%): $<span id="commission"></span></p>
 	
 	<div style="margin-bottom: 30px;"></div>
 
