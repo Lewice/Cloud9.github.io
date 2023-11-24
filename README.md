@@ -94,11 +94,10 @@
   // Prepare data for API submission
   const formData = {
     "Employee Name": employeeName,
-    "Customer State ID": customerStateID,
-    "Customer Name": customerName,
     "Total": total.toFixed(2),
     "Commission": commission.toFixed(2),
-    "Discount Applied": discount,
+    "Customer State ID": customerStateID,
+    "Customer Name": customerName,
     "Items Ordered": orderedItems.map(item => `${item.quantity}x ${item.name}`).join('\n')
   };
 
