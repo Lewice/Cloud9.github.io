@@ -227,7 +227,7 @@
 	
 
 	<label for="customerName">Customer Name:</label>
-	<input type="text" id="customerName" required>
+	<input type="text" id="customerName">
     
 	
 	
